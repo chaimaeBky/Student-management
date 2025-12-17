@@ -80,6 +80,7 @@ public class Teacher {
     public double calculateBonus(int years) {
         if (years <= 0) {
             return 0.0;
+
         }
 
         return monthlySalary * years;
