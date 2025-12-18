@@ -2,89 +2,57 @@ package com.school.studentmanagement.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Entity
 @Table(name = "students")
 @Data
+@NoArgsConstructor
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String fullName;
 
     private Integer age;
 
+    @Column(unique = true, nullable = false)
     private String emailAddress;
 
-    private String studentPassword;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "student_courses",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
     private List<Course> enrolledCourses;
 
-    // AJOUTER CES GETTERS/SETTERS MANUELS
-    public String getFullName() {
-        return this.fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getEmailAddress() {
-        return this.emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public Integer getAge() {
-        return this.age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
     public String calculateGrade(List<Integer> marks) {
-        if (marks == null) {
-            return "No marks";
+        if (marks == null || marks.isEmpty()) {
+            return "No marks available";
         }
 
-        int total = 0;
-        for (int i = 0; i < marks.size(); i++) {
-            total = total + marks.get(i);
-        }
+        double average = marks.stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0.0);
 
-        double avg = total / marks.size();
-
-        if (avg > 90) {
-            return "Excellent";
-        } else if (avg > 80) {
-            return "Very Good";
-        } else if (avg > 70) {
-            return "Good";
-        } else if (avg > 60) {
-            return "Average";
-        } else if (avg > 50) {
-            return "Below Average";
-        } else if (avg > 40) {
-            return "Poor";
-        } else if (avg > 30) {
-            return "Very Poor";
-        } else {
-            return "Fail";
-        }
+        if (average > 90) return "Excellent";
+        if (average > 80) return "Very Good";
+        if (average > 70) return "Good";
+        if (average > 60) return "Average";
+        if (average > 50) return "Below Average";
+        if (average > 40) return "Poor";
+        if (average > 30) return "Very Poor";
+        return "Fail";
     }
 
     public String generateReport() {
-        String report = "Report for " + fullName;
-        // LOG:report);
-        return report;
+        return String.format("Academic Report for %s (ID: %d)", fullName, id);
     }
-
-
 }

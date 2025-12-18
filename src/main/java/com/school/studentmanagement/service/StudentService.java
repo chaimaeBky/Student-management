@@ -1,60 +1,57 @@
 package com.school.studentmanagement.service;
 
-
 import com.school.studentmanagement.entity.Student;
 import com.school.studentmanagement.repository.StudentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+import java.util.Optional;
 
 @Service
+@Transactional
 public class StudentService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(StudentService.class);
+    private static final String DEFAULT_STATUS = "ACTIVE";
 
     @Autowired
     private StudentRepository studentRepository;
 
-    public static final String DEFAULT_STATUS = "ACTIVE";
-
-    public Student getStudent(Long id) {
-        return studentRepository.findById(id).orElse(null);
+    public Optional<Student> getStudent(Long id) {
+        LOG.debug("Fetching student with id: {}", id);
+        return studentRepository.findById(id);
     }
 
     public Student registerStudent(Student student) {
-        if (student.getEmailAddress() == null) {
-            // LOG:"Email missing");
+        if (student.getEmailAddress() == null || student.getEmailAddress().trim().isEmpty()) {
+            LOG.warn("Attempt to register student without email");
+            throw new IllegalArgumentException("Email is required");
         }
+
+        LOG.info("Registering new student: {}", student.getFullName());
         return studentRepository.save(student);
     }
 
     public void processStudents() {
         List<Student> students = studentRepository.findAll();
+        LOG.info("Processing {} students", students.size());
 
-        for (Student student : students) {
-            // LOG:"Processing: " + student.getFullName());
+        students.forEach(student -> {
+            LOG.debug("Processing student: {}", student.getFullName());
 
-            if (student.getAge() != null) {
-                if (student.getAge() > 18) {
-                    // LOG:"Adult");
-                }
+            if (student.getAge() != null && student.getAge() > 18) {
+                LOG.trace("Adult student detected");
             }
-
-            String temp = student.getFullName();
-        }
-
-        for (int i = 0; i < students.size(); i++) {
-            for (int j = 0; j < students.size(); j++) {
-                if (i != j) {
-                    // LOG:"Processing pair");
-                }
-            }
-        }
+        });
     }
 
     public String checkStatus(Long id) {
         return studentRepository.findById(id)
                 .map(student -> DEFAULT_STATUS)
-                .orElse("NOT_FOUND"); // Toujours retourner une String
+                .orElse("NOT_FOUND");
     }
 }

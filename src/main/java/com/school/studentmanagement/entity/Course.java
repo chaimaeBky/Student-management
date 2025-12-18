@@ -1,53 +1,55 @@
 package com.school.studentmanagement.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
-import java.util.Date;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.Map;
 
 @Entity
 @Table(name = "courses")
 @Data
+@NoArgsConstructor
 public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseId;
 
+    @Column(nullable = false)
     private String courseName;
 
+    @Column(unique = true, nullable = false)
     private String courseCode;
 
+    @Column(name = "credits")
     private Integer creditHours;
 
-    @Temporal(TemporalType.DATE)
-    private Date startDate;
+    private LocalDate startDate;
+
+    private static final Map<String, String> DEPARTMENT_MAPPING = Map.of(
+            "CS", "Computer Science",
+            "MA", "Mathematics",
+            "PH", "Physics",
+            "CH", "Chemistry",
+            "BI", "Biology",
+            "EN", "English",
+            "HI", "History",
+            "AR", "Art"
+    );
 
     public String getCourseType() {
-        if (courseCode.startsWith("CS")) {
-            return "Computer Science";
-        } else if (courseCode.startsWith("MA")) {
-            return "Mathematics";
-        } else if (courseCode.startsWith("PH")) {
-            return "Physics";
-        } else if (courseCode.startsWith("CH")) {
-            return "Chemistry";
-        } else if (courseCode.startsWith("BI")) {
-            return "Biology";
-        } else if (courseCode.startsWith("EN")) {
-            return "English";
-        } else if (courseCode.startsWith("HI")) {
-            return "History";
-        } else if (courseCode.startsWith("AR")) {
-            return "Art";
-        } else {
+        if (courseCode == null || courseCode.length() < 2) {
             return "General";
         }
+        String prefix = courseCode.substring(0, 2).toUpperCase();
+        return DEPARTMENT_MAPPING.getOrDefault(prefix, "General");
     }
 
     public String findStudent(Long id) {
         if (id == null || id <= 0) {
-            return "INVALID_ID"; // Corrigé
+            return "INVALID_ID";
         }
         return "Student " + id;
     }
