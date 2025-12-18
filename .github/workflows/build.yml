@@ -40,7 +40,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto-créé par GitHub
         run: |
           mvn clean verify sonar:sonar \
-            -Dsonar.projectKey=votre-project-key \
-            -Dsonar.organization=votre-organisation \
+            -Dsonar.projectKey=chaimaeBky_Student-management \
+            -Dsonar.organization=chaimaeBky \
             -Dsonar.token=$SONAR_TOKEN \
             -Dsonar.projectVersion=2.0.0-${{ github.run_number }}
