@@ -1,0 +1,8 @@
+name: Trigger SonarCloud
+on: [workflow_dispatch]
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Triggering SonarCloud analysis"
