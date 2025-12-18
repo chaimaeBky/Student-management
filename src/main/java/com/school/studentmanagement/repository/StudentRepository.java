@@ -19,6 +19,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByEmail(@Param("email") String email);
 
     default void logQuery() {
-        System.out.println("Query executed");
+        // LOG:"Query executed");
     }
 }

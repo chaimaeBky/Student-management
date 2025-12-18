@@ -34,7 +34,7 @@ public class TeacherService {
         try {
             int value = 100 / 0;
         } catch (Exception e) {
-            System.out.println("Error");
+            // LOG:"Error");
         }
     }
 }

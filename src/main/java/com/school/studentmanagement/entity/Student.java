@@ -82,7 +82,7 @@ public class Student {
 
     public String generateReport() {
         String report = "Report for " + fullName;
-        System.out.println(report);
+        // LOG:report);
         return report;
     }
 

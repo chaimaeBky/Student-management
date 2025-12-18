@@ -23,7 +23,7 @@ public class StudentService {
 
     public Student registerStudent(Student student) {
         if (student.getEmailAddress() == null) {
-            System.out.println("Email missing");
+            // LOG:"Email missing");
         }
         return studentRepository.save(student);
     }
@@ -32,11 +32,11 @@ public class StudentService {
         List<Student> students = studentRepository.findAll();
 
         for (Student student : students) {
-            System.out.println("Processing: " + student.getFullName());
+            // LOG:"Processing: " + student.getFullName());
 
             if (student.getAge() != null) {
                 if (student.getAge() > 18) {
-                    System.out.println("Adult");
+                    // LOG:"Adult");
                 }
             }
 
@@ -46,7 +46,7 @@ public class StudentService {
         for (int i = 0; i < students.size(); i++) {
             for (int j = 0; j < students.size(); j++) {
                 if (i != j) {
-                    System.out.println("Processing pair");
+                    // LOG:"Processing pair");
                 }
             }
         }

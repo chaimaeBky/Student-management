@@ -13,7 +13,7 @@ class ServiceTest {
 
     @Test
     void testService() {
-        System.out.println("Testing service");
+        // LOG:"Testing service");
     }
 
     @Test
