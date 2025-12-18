@@ -11,10 +11,10 @@ public class StudentManagementApplication {
     public static final String APPLICATION_NAME = "Student Management System";
 
     public static void main(String[] args) {
-        // LOG:"Application starting...");
+
 
         for (String arg : args) {
-            // LOG:"Argument: " + arg);
+
         }
 
         SpringApplication.run(StudentManagementApplication.class, args);

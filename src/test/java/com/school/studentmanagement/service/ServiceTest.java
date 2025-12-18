@@ -13,7 +13,7 @@ class ServiceTest {
 
     @Test
     void testService() {
-        // LOG:"Testing service");
+
     }
 
     @Test
