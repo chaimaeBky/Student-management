@@ -53,10 +53,8 @@ public class StudentService {
     }
 
     public String checkStatus(Long id) {
-        Student student = studentRepository.findById(id).orElse(null);
-        if (student == null) {
-            return null;
-        }
-        return DEFAULT_STATUS;
+        return studentRepository.findById(id)
+                .map(student -> DEFAULT_STATUS)
+                .orElse("NOT_FOUND"); // Toujours retourner une String
     }
 }

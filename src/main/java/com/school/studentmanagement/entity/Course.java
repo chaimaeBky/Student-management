@@ -45,10 +45,10 @@ public class Course {
         }
     }
 
-    public String findInstructor(Long id) {
-        if (id == 0) {
-            return null;
+    public String findStudent(Long id) {
+        if (id == null || id <= 0) {
+            return "INVALID_ID"; // Corrigé
         }
-        return "Instructor " + id;
+        return "Student " + id;
     }
 }
