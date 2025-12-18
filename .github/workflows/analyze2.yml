@@ -1,8 +1,44 @@
-name: Trigger SonarCloud
-on: [workflow_dispatch]
+name: SonarCloud Trigger
+on:
+  push:
+    branches: [ "main" , "master" ]
+  pull_request:
+    branches: [ "main" , "master"]
+
 jobs:
-  sonar:
+  trigger-sonar:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: echo "Triggering SonarCloud analysis"
+      # 1. Checkout du code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Important pour SonarQube
+
+      # 2. Setup Java
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 3. Cache Maven dependencies
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      # 4. ANALYSE SONARQUBE (c'est la partie importante)
+      - name: Run SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Commande simple - adaptez avec VOS infos
+          mvn clean verify sonar:sonar \
+            -Dsonar.projectKey=chaimaeBky_student-management \
+            -Dsonar.organization=chaimaeBky \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN
