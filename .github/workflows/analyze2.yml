@@ -39,6 +39,6 @@ jobs:
           # Commande simple - adaptez avec VOS infos
           mvn clean verify sonar:sonar \
             -Dsonar.projectKey=chaimaeBky_Student-management \
-            -Dsonar.organization=chaimaeBky \
+            -Dsonar.organization=chaimaebky \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN

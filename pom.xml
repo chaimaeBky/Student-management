@@ -25,7 +25,7 @@
 
             <java.version>17</java.version>
             <!-- Replace these with your actual values from SonarCloud -->
-            <sonar.organization>chaimaeBky</sonar.organization>
+            <sonar.organization>chaimaebky</sonar.organization>
             <sonar.projectKey>chaimaeBky_Student-management</sonar.projectKey>
             <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
