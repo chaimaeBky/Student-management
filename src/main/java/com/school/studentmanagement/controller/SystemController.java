@@ -14,7 +14,5 @@ public class SystemController {
         return "System information";
     }
 
-    private String internalMethod() {
-        return "Internal data";
-    }
+
 }

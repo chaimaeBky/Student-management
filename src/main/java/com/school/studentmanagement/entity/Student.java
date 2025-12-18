@@ -86,8 +86,5 @@ public class Student {
         return report;
     }
 
-    private void helperMethod() {
-        int x = 10;
-        String temp = "temp";
-    }
+
 }
