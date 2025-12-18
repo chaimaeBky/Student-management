@@ -1,5 +1,6 @@
 package com.school.studentmanagement.entity;
 
+import com.school.studentmanagement.util.GradeCalculator;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,23 +25,7 @@ public class Teacher {
     private Double monthlySalary;
 
     public String evaluateStudents(List<Integer> scores) {
-        if (scores == null || scores.isEmpty()) {
-            return "No scores available";
-        }
-
-        double average = scores.stream()
-                .mapToInt(Integer::intValue)
-                .average()
-                .orElse(0.0);
-
-        if (average > 90) return "Excellent";
-        if (average > 80) return "Very Good";
-        if (average > 70) return "Good";
-        if (average > 60) return "Average";
-        if (average > 50) return "Below Average";
-        if (average > 40) return "Poor";
-        if (average > 30) return "Very Poor";
-        return "Fail";
+        return GradeCalculator.calculateGrade(scores);
     }
 
     public double calculateBonus(int years) {
